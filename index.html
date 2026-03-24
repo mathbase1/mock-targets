@@ -10,10 +10,14 @@
       --bg: #f5f7fb;
       --card: #ffffff;
       --ink: #1f2937;
-      --muted: #6b7280;
+      --muted: #64748b;
       --line: #d7deea;
       --head: #eaf1ff;
       --accent: #1d4ed8;
+      --accent-dark: #173d9a;
+      --accent-soft: #eff6ff;
+      --success: #166534;
+      --warning: #7c2d12;
     }
     * { box-sizing: border-box; }
     body {
@@ -23,7 +27,7 @@
       color: var(--ink);
     }
     .wrap {
-      max-width: 1220px;
+      max-width: 1240px;
       margin: 0 auto;
       padding: 32px 20px 48px;
     }
@@ -40,17 +44,27 @@
       background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
     }
     h1 {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       font-size: 30px;
       line-height: 1.2;
       color: #0f172a;
     }
     .lead {
-      margin: 0;
+      margin: 0 0 16px;
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.65;
       color: var(--muted);
-      max-width: 900px;
+      max-width: 980px;
+    }
+    .notice {
+      margin: 0;
+      padding: 16px 18px;
+      border: 1px solid #c9dcff;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      font-size: 14px;
+      line-height: 1.65;
+      color: #17315f;
     }
     .table-wrap {
       overflow-x: auto;
@@ -59,7 +73,7 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      min-width: 940px;
+      min-width: 980px;
     }
     thead th {
       position: sticky;
@@ -80,12 +94,17 @@
       border-bottom: 1px solid var(--line);
       font-size: 15px;
       line-height: 1.55;
+      background: #ffffff;
+      transition: background 0.2s ease;
     }
     tbody tr:nth-child(even) td {
       background: #fbfcff;
     }
     tbody tr:hover td {
       background: #f8fbff;
+    }
+    tbody tr.has-selection td {
+      background: #eef6ff !important;
     }
     td.question {
       width: 120px;
@@ -102,18 +121,124 @@
     }
     .nugget-list {
       margin: 0;
-      padding-left: 20px;
+      padding-left: 0;
+      list-style: none;
     }
     .nugget-list li {
-      margin: 0 0 6px;
+      margin: 0 0 8px;
     }
     .nugget-list li:last-child {
       margin-bottom: 0;
+    }
+    .nugget-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .nugget-checkbox {
+      width: 18px;
+      height: 18px;
+      margin: 3px 0 0;
+      flex: 0 0 auto;
+      accent-color: var(--accent);
+    }
+    .nugget-text {
+      display: inline-block;
     }
     .code {
       color: var(--accent);
       font-weight: 700;
       white-space: nowrap;
+    }
+    .action-panel {
+      padding: 22px 28px 24px;
+      border-top: 1px solid var(--line);
+      background: #ffffff;
+    }
+    .selected-count {
+      margin: 0 0 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.04s ease, opacity 0.2s ease, background 0.2s ease;
+    }
+    button:active {
+      transform: translateY(1px);
+    }
+    .primary-btn {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    .primary-btn:hover {
+      background: #1b46c2;
+    }
+    .secondary-btn {
+      background: #e5eefc;
+      color: #17315f;
+    }
+    .secondary-btn:hover {
+      background: #d8e6ff;
+    }
+    .output-card {
+      padding: 26px 28px 28px;
+      border-top: 1px solid var(--line);
+      background: #fcfdff;
+    }
+    .output-card h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.25;
+      color: #0f172a;
+    }
+    .output-help {
+      margin: 0 0 16px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: #334155;
+    }
+    textarea {
+      width: 100%;
+      min-height: 320px;
+      padding: 16px 18px;
+      border: 1px solid #cdd8ea;
+      border-radius: 14px;
+      resize: vertical;
+      font-size: 15px;
+      line-height: 1.65;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+    }
+    textarea:focus {
+      outline: 2px solid #bfdbfe;
+      border-color: #93c5fd;
+    }
+    .status {
+      min-height: 24px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .status.success {
+      color: var(--success);
+    }
+    .status.warning {
+      color: var(--warning);
     }
     .footer {
       padding: 14px 28px 24px;
@@ -123,9 +248,13 @@
     }
     @media (max-width: 760px) {
       .wrap { padding: 18px 10px 28px; }
-      .header { padding: 22px 18px 16px; }
+      .header, .action-panel, .output-card, .footer { padding-left: 18px; padding-right: 18px; }
       h1 { font-size: 24px; }
+      .output-card h2 { font-size: 21px; }
       tbody td, thead th { padding: 12px 12px; }
+      .button-row { flex-direction: column; align-items: stretch; }
+      button { width: 100%; }
+      textarea { min-height: 360px; }
     }
     @media print {
       body { background: #ffffff; }
@@ -139,11 +268,14 @@
         position: static;
       }
       tbody tr:nth-child(even) td,
-      tbody tr:hover td {
-        background: #ffffff;
+      tbody tr:hover td,
+      tbody tr.has-selection td {
+        background: #ffffff !important;
       }
-      .footer {
-        padding-top: 10px;
+      .action-panel button,
+      .output-card button,
+      .status {
+        display: none;
       }
       @page {
         size: A4 landscape;
@@ -157,8 +289,10 @@
     <div class="card">
       <div class="header">
         <h1>WJEC Maths Foundation Component 2 – question to CENTURY nugget targets</h1>
-        <p class="lead">Subparts are split out where a question tests different skills, so the targets are easier to assign to individual students. CENTURY codes are shown in brackets.</p>
+        <p class="lead">Tick each CENTURY nugget that you need to work on. When you have finished, scroll to the bottom of the page and click <strong>Generate targets</strong>. Your personalised targets will appear in the text box below.</p>
+        <p class="notice"><strong>What to do next:</strong> after you generate your targets, click <strong>Copy to clipboard</strong>, log into Teams, and send the message to your maths tutor. These targets should then be completed <strong>as soon as possible</strong> as homework so that you can improve your grade.</p>
       </div>
+
       <div class="table-wrap">
         <table aria-label="Question to CENTURY nugget targets">
           <thead>
@@ -169,62 +303,995 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td class='question'>1(a)</td><td class='topic'>Writing large numbers in figures / place value</td><td class='nuggets'><ul class='nugget-list'><li>Integer Place Value <span class='code'>(MF2.01)</span></li></ul></td></tr>
-<tr><td class='question'>1(b)</td><td class='topic'>Ordering decimals</td><td class='nuggets'><ul class='nugget-list'><li>Ordering Decimals <span class='code'>(MF2.09)</span></li></ul></td></tr>
-<tr><td class='question'>1(c)</td><td class='topic'>Fractions of a shape</td><td class='nuggets'><ul class='nugget-list'><li>Shading Fractions <span class='code'>(MF4.05)</span></li></ul></td></tr>
-<tr><td class='question'>1(d)</td><td class='topic'>Comparing negative numbers with inequalities</td><td class='nuggets'><ul class='nugget-list'><li>Ordering Negatives <span class='code'>(MF2.10)</span></li><li>Mathematical Symbols <span class='code'>(MF2.02)</span></li></ul></td></tr>
-<tr><td class='question'>2(a)</td><td class='topic'>Total cost from a price table</td><td class='nuggets'><ul class='nugget-list'><li>Adding Decimals 2: Worded Problems <span class='code'>(MF6.03)</span></li></ul></td></tr>
-<tr><td class='question'>2(b)</td><td class='topic'>Quantity from total cost and unit price</td><td class='nuggets'><ul class='nugget-list'><li>Dividing Decimals by Decimals <span class='code'>(MF6.10)</span></li></ul></td></tr>
-<tr><td class='question'>2(c)</td><td class='topic'>Best value / pay-monthly comparison</td><td class='nuggets'><ul class='nugget-list'><li>Multiplying Decimals: Worded Questions <span class='code'>(MF6.08)</span></li><li>Better Value <span class='code'>(MF16.04)</span></li></ul></td></tr>
-<tr><td class='question'>3(a)</td><td class='topic'>Symmetry and congruence on a grid</td><td class='nuggets'><ul class='nugget-list'><li>Reflective Symmetry <span class='code'>(MF29.02)</span></li><li>Rotational Symmetry <span class='code'>(MF29.01)</span></li><li>Congruence <span class='code'>(MF29.06)</span></li></ul></td></tr>
-<tr><td class='question'>3(b)(i)</td><td class='topic'>Angles in a triangle</td><td class='nuggets'><ul class='nugget-list'><li>Angles in a Triangle 1 <span class='code'>(MF28.01)</span></li></ul></td></tr>
-<tr><td class='question'>3(b)(ii)</td><td class='topic'>Vertically opposite angles</td><td class='nuggets'><ul class='nugget-list'><li>Vertically Opposite Angles <span class='code'>(MF27.07)</span></li></ul></td></tr>
-<tr><td class='question'>4(a)</td><td class='topic'>Coordinates in four quadrants</td><td class='nuggets'><ul class='nugget-list'><li>Understanding Coordinates: 4 Quadrants <span class='code'>(MF23.02)</span></li></ul></td></tr>
-<tr><td class='question'>4(b)</td><td class='topic'>Midpoint on a coordinate grid</td><td class='nuggets'><ul class='nugget-list'><li>Midpoint of a Line Segment <span class='code'>(MF23.03)</span></li></ul></td></tr>
-<tr><td class='question'>4(c)</td><td class='topic'>Map scale / distance</td><td class='nuggets'><ul class='nugget-list'><li>Using Scales on a Map <span class='code'>(MF39.05)</span></li></ul></td></tr>
-<tr><td class='question'>5(a)</td><td class='topic'>Fraction from a pie chart</td><td class='nuggets'><ul class='nugget-list'><li>Interpreting Pie Charts <span class='code'>(MF50.11)</span></li><li>Simplifying Fractions <span class='code'>(MF4.04)</span></li></ul></td></tr>
-<tr><td class='question'>5(b)</td><td class='topic'>Probability from a pie chart / probability scale</td><td class='nuggets'><ul class='nugget-list'><li>Interpreting Pie Charts <span class='code'>(MF50.11)</span></li><li>Probability Scale in Numbers <span class='code'>(MF46.02)</span></li></ul></td></tr>
-<tr><td class='question'>6</td><td class='topic'>Rectangle area and perimeter</td><td class='nuggets'><ul class='nugget-list'><li>Area of Squares, Rectangles and Parallelograms <span class='code'>(MF31.03)</span></li><li>Perimeter and Algebra <span class='code'>(MF30.06)</span></li></ul></td></tr>
-<tr><td class='question'>7</td><td class='topic'>Prime numbers with a given sum</td><td class='nuggets'><ul class='nugget-list'><li>Primes <span class='code'>(MF5.03)</span></li></ul></td></tr>
-<tr><td class='question'>8</td><td class='topic'>Solving item costs from combinations</td><td class='nuggets'><ul class='nugget-list'><li>Simultaneous Equations: Substitution <span class='code'>(MF19.25)</span></li><li>Simultaneous Equations: Worded Questions <span class='code'>(MF19.26)</span></li></ul></td></tr>
-<tr><td class='question'>9(a)</td><td class='topic'>Substituting into a formula</td><td class='nuggets'><ul class='nugget-list'><li>Substituting into a Formula <span class='code'>(MF21.02)</span></li></ul></td></tr>
-<tr><td class='question'>9(b)</td><td class='topic'>Solving a formula-based equation</td><td class='nuggets'><ul class='nugget-list'><li>Substituting into a Formula <span class='code'>(MF21.02)</span></li><li>Solving Equations: Two Steps ax + b = c <span class='code'>(MF19.06)</span></li></ul></td></tr>
-<tr><td class='question'>10(a)</td><td class='topic'>Mode</td><td class='nuggets'><ul class='nugget-list'><li>Mode <span class='code'>(MF49.01)</span></li></ul></td></tr>
-<tr><td class='question'>10(b)</td><td class='topic'>Median</td><td class='nuggets'><ul class='nugget-list'><li>Median <span class='code'>(MF49.02)</span></li></ul></td></tr>
-<tr><td class='question'>10(c)</td><td class='topic'>Missing value from the mean</td><td class='nuggets'><ul class='nugget-list'><li>Mean 3: Finding Missing Values <span class='code'>(MF49.05)</span></li><li>Mean 2: Decimals and Negatives <span class='code'>(MF49.04)</span></li></ul></td></tr>
-<tr><td class='question'>11(a)</td><td class='topic'>Continuing a sequence</td><td class='nuggets'><ul class='nugget-list'><li>Continuing Sequences <span class='code'>(MF22.01)</span></li></ul></td></tr>
-<tr><td class='question'>11(b)</td><td class='topic'>Expand and simplify</td><td class='nuggets'><ul class='nugget-list'><li>Expanding and Simplifying <span class='code'>(MF18.06)</span></li></ul></td></tr>
-<tr><td class='question'>11(c)</td><td class='topic'>Factorising into a single bracket</td><td class='nuggets'><ul class='nugget-list'><li>Factorising into a Single Bracket 2: ax ± bx <span class='code'>(MF18.08)</span></li></ul></td></tr>
-<tr><td class='question'>11(d)</td><td class='topic'>Solving a linear equation</td><td class='nuggets'><ul class='nugget-list'><li>Solving Equations: Two Steps ax + b = c <span class='code'>(MF19.06)</span></li></ul></td></tr>
-<tr><td class='question'>11(e)</td><td class='topic'>Cube roots / inverse operations</td><td class='nuggets'><ul class='nugget-list'><li>Roots of Squares and Cubes <span class='code'>(MF12.05)</span></li><li>Cubes <span class='code'>(MF12.02)</span></li></ul></td></tr>
-<tr><td class='question'>12(a)</td><td class='topic'>Percentage of an amount</td><td class='nuggets'><ul class='nugget-list'><li>Finding Percentages 2: &gt; 100% or Non-Integer Percentages (Calculator) <span class='code'>(MF11.02)</span></li></ul></td></tr>
-<tr><td class='question'>12(b)</td><td class='topic'>Fractional increase of a quantity</td><td class='nuggets'><ul class='nugget-list'><li>Fraction of Amounts: Calculator <span class='code'>(MF4.30)</span></li></ul></td></tr>
-<tr><td class='question'>12(c)</td><td class='topic'>Expressing one amount as a percentage of another</td><td class='nuggets'><ul class='nugget-list'><li>Express One Amount as a Percentage of Another <span class='code'>(MF11.13)</span></li></ul></td></tr>
-<tr><td class='question'>13(a)</td><td class='topic'>Scaling a recipe up</td><td class='nuggets'><ul class='nugget-list'><li>Recipe Ratio 1: Find Amount of Ingredients <span class='code'>(MF16.02)</span></li></ul></td></tr>
-<tr><td class='question'>13(b)</td><td class='topic'>Finding how many recipes can be made</td><td class='nuggets'><ul class='nugget-list'><li>Recipe Ratio 2: Find the Number of People <span class='code'>(MF16.03)</span></li></ul></td></tr>
-<tr><td class='question'>14</td><td class='topic'>Simple interest and when an amount exceeds a target</td><td class='nuggets'><ul class='nugget-list'><li>Simple Interest (Calculator) <span class='code'>(MF11.06)</span></li><li>Solving Inequalities: Two Step <span class='code'>(MF25.08)</span></li></ul></td></tr>
-<tr><td class='question'>15</td><td class='topic'>Unit price with decimal calculations</td><td class='nuggets'><ul class='nugget-list'><li>Multiplying Decimals: Worded Questions <span class='code'>(MF6.08)</span></li><li>Subtracting Decimals 2: Worded Problems <span class='code'>(MF6.05)</span></li><li>Dividing Decimals <span class='code'>(MF6.09)</span></li></ul></td></tr>
-<tr><td class='question'>16</td><td class='topic'>Angle proof in a parallelogram</td><td class='nuggets'><ul class='nugget-list'><li>Quadrilateral Facts <span class='code'>(MF29.03)</span></li><li>Angles in Parallel Lines 2 <span class='code'>(MF27.12)</span></li><li>Angles in a Triangle 1 <span class='code'>(MF28.01)</span></li></ul></td></tr>
-<tr><td class='question'>17(a)</td><td class='topic'>Speed-distance-time with unit conversion</td><td class='nuggets'><ul class='nugget-list'><li>Finding Time with Conversions (SDT) <span class='code'>(MF38.06)</span></li><li>Problems with Time <span class='code'>(MF37.09)</span></li></ul></td></tr>
-<tr><td class='question'>17(b)</td><td class='topic'>Cost, litres and gallons conversion</td><td class='nuggets'><ul class='nugget-list'><li>Dividing Decimals by Decimals <span class='code'>(MF6.10)</span></li><li>Metric and Imperial Mass and Volume (Calculator) <span class='code'>(MF36.19)</span></li></ul></td></tr>
-<tr><td class='question'>18(a)</td><td class='topic'>Correlation in a scatter graph</td><td class='nuggets'><ul class='nugget-list'><li>Interpreting Scatter Graphs 1: Introduction <span class='code'>(MF50.14)</span></li></ul></td></tr>
-<tr><td class='question'>18(b)</td><td class='topic'>Estimate from a line of best fit</td><td class='nuggets'><ul class='nugget-list'><li>Interpreting Scatter Graphs 1: Introduction <span class='code'>(MF50.14)</span></li></ul></td></tr>
-<tr><td class='question'>18(c)</td><td class='topic'>Interpreting a line of best fit as an estimate</td><td class='nuggets'><ul class='nugget-list'><li>Interpreting Scatter Graphs 1: Introduction <span class='code'>(MF50.14)</span></li></ul></td></tr>
-<tr><td class='question'>18(d)</td><td class='topic'>Mean from grouped frequency data</td><td class='nuggets'><ul class='nugget-list'><li>Mean from Grouped Frequency Table 2: Continuous Data <span class='code'>(MF49.17)</span></li></ul></td></tr>
-<tr><td class='question'>19</td><td class='topic'>Multi-step ratio / working backwards</td><td class='nuggets'><ul class='nugget-list'><li>Sharing with a Given Ratio 3 (Calculator): Working Backwards <span class='code'>(MF15.09)</span></li><li>3 Part Ratios <span class='code'>(MF15.05)</span></li></ul></td></tr>
-<tr><td class='question'>20</td><td class='topic'>Pythagoras with a circle</td><td class='nuggets'><ul class='nugget-list'><li>Pythagoras: Finding the Hypotenuse <span class='code'>(MF44.02)</span></li><li>Area of a Circle: From Diameter <span class='code'>(MF32.08)</span></li></ul></td></tr>
-<tr><td class='question'>21(a)</td><td class='topic'>Matching straight-line graphs to equations</td><td class='nuggets'><ul class='nugget-list'><li>Graphing y = mx + c (1) <span class='code'>(MF23.11)</span></li><li>Graphing y = mx + c (2) <span class='code'>(MF23.12)</span></li></ul></td></tr>
-<tr><td class='question'>21(b)</td><td class='topic'>Parallel lines and gradient</td><td class='nuggets'><ul class='nugget-list'><li>Parallel and Perpendicular Lines <span class='code'>(MF26.05)</span></li></ul></td></tr>
-<tr><td class='question'>21(c)</td><td class='topic'>Rearranging a formula</td><td class='nuggets'><ul class='nugget-list'><li>Rearranging Formulae: Two Step <span class='code'>(MF21.06)</span></li></ul></td></tr>
-<tr><td class='question'>22(a)</td><td class='topic'>Completing a tree diagram</td><td class='nuggets'><ul class='nugget-list'><li>Tree Diagrams 1: Completing Diagrams <span class='code'>(MF46.14)</span></li></ul></td></tr>
-<tr><td class='question'>22(b)</td><td class='topic'>Probability using a tree diagram</td><td class='nuggets'><ul class='nugget-list'><li>Tree Diagrams 3: Calculating Probability of Multiple Outcomes <span class='code'>(MF46.16)</span></li><li>Tree Diagrams 4: AND/OR Statements (2 Branch Trees) <span class='code'>(MF46.17)</span></li></ul></td></tr>
-<tr><td class='question'>23(a)</td><td class='topic'>Trigonometry - missing side</td><td class='nuggets'><ul class='nugget-list'><li>Introduction to SOHCAHTOA <span class='code'>(MF45.01)</span></li><li>Trigonometry: Missing Side 1 (Variable is Numerator) <span class='code'>(MF45.03)</span></li></ul></td></tr>
-<tr><td class='question'>23(b)</td><td class='topic'>Trigonometry - missing angle</td><td class='nuggets'><ul class='nugget-list'><li>Trigonometry: Missing Angle <span class='code'>(MF45.05)</span></li></ul></td></tr>
+<tr>
+  <td class="question">1(a)</td>
+  <td class="topic">Writing large numbers in figures / place value</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_1">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_1" data-topic="Writing large numbers in figures / place value" data-nugget="Integer Place Value (MF2.01)">
+    <span class="nugget-text">Integer Place Value <span class="code">(MF2.01)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">1(b)</td>
+  <td class="topic">Ordering decimals</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_2">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_2" data-topic="Ordering decimals" data-nugget="Ordering Decimals (MF2.09)">
+    <span class="nugget-text">Ordering Decimals <span class="code">(MF2.09)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">1(c)</td>
+  <td class="topic">Fractions of a shape</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_3">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_3" data-topic="Fractions of a shape" data-nugget="Shading Fractions (MF4.05)">
+    <span class="nugget-text">Shading Fractions <span class="code">(MF4.05)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">1(d)</td>
+  <td class="topic">Comparing negative numbers with inequalities</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_4">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_4" data-topic="Comparing negative numbers with inequalities" data-nugget="Ordering Negatives (MF2.10)">
+    <span class="nugget-text">Ordering Negatives <span class="code">(MF2.10)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_5">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_5" data-topic="Comparing negative numbers with inequalities" data-nugget="Mathematical Symbols (MF2.02)">
+    <span class="nugget-text">Mathematical Symbols <span class="code">(MF2.02)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">2(a)</td>
+  <td class="topic">Total cost from a price table</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_6">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_6" data-topic="Total cost from a price table" data-nugget="Adding Decimals 2: Worded Problems (MF6.03)">
+    <span class="nugget-text">Adding Decimals 2: Worded Problems <span class="code">(MF6.03)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">2(b)</td>
+  <td class="topic">Quantity from total cost and unit price</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_7">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_7" data-topic="Quantity from total cost and unit price" data-nugget="Dividing Decimals by Decimals (MF6.10)">
+    <span class="nugget-text">Dividing Decimals by Decimals <span class="code">(MF6.10)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">2(c)</td>
+  <td class="topic">Best value / pay-monthly comparison</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_8">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_8" data-topic="Best value / pay-monthly comparison" data-nugget="Multiplying Decimals: Worded Questions (MF6.08)">
+    <span class="nugget-text">Multiplying Decimals: Worded Questions <span class="code">(MF6.08)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_9">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_9" data-topic="Best value / pay-monthly comparison" data-nugget="Better Value (MF16.04)">
+    <span class="nugget-text">Better Value <span class="code">(MF16.04)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">3(a)</td>
+  <td class="topic">Symmetry and congruence on a grid</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_10">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_10" data-topic="Symmetry and congruence on a grid" data-nugget="Reflective Symmetry (MF29.02)">
+    <span class="nugget-text">Reflective Symmetry <span class="code">(MF29.02)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_11">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_11" data-topic="Symmetry and congruence on a grid" data-nugget="Rotational Symmetry (MF29.01)">
+    <span class="nugget-text">Rotational Symmetry <span class="code">(MF29.01)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_12">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_12" data-topic="Symmetry and congruence on a grid" data-nugget="Congruence (MF29.06)">
+    <span class="nugget-text">Congruence <span class="code">(MF29.06)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">3(b)(i)</td>
+  <td class="topic">Angles in a triangle</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_13">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_13" data-topic="Angles in a triangle" data-nugget="Angles in a Triangle 1 (MF28.01)">
+    <span class="nugget-text">Angles in a Triangle 1 <span class="code">(MF28.01)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">3(b)(ii)</td>
+  <td class="topic">Vertically opposite angles</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_14">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_14" data-topic="Vertically opposite angles" data-nugget="Vertically Opposite Angles (MF27.07)">
+    <span class="nugget-text">Vertically Opposite Angles <span class="code">(MF27.07)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">4(a)</td>
+  <td class="topic">Coordinates in four quadrants</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_15">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_15" data-topic="Coordinates in four quadrants" data-nugget="Understanding Coordinates: 4 Quadrants (MF23.02)">
+    <span class="nugget-text">Understanding Coordinates: 4 Quadrants <span class="code">(MF23.02)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">4(b)</td>
+  <td class="topic">Midpoint on a coordinate grid</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_16">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_16" data-topic="Midpoint on a coordinate grid" data-nugget="Midpoint of a Line Segment (MF23.03)">
+    <span class="nugget-text">Midpoint of a Line Segment <span class="code">(MF23.03)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">4(c)</td>
+  <td class="topic">Map scale / distance</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_17">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_17" data-topic="Map scale / distance" data-nugget="Using Scales on a Map (MF39.05)">
+    <span class="nugget-text">Using Scales on a Map <span class="code">(MF39.05)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">5(a)</td>
+  <td class="topic">Fraction from a pie chart</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_18">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_18" data-topic="Fraction from a pie chart" data-nugget="Interpreting Pie Charts (MF50.11)">
+    <span class="nugget-text">Interpreting Pie Charts <span class="code">(MF50.11)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_19">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_19" data-topic="Fraction from a pie chart" data-nugget="Simplifying Fractions (MF4.04)">
+    <span class="nugget-text">Simplifying Fractions <span class="code">(MF4.04)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">5(b)</td>
+  <td class="topic">Probability from a pie chart / probability scale</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_20">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_20" data-topic="Probability from a pie chart / probability scale" data-nugget="Interpreting Pie Charts (MF50.11)">
+    <span class="nugget-text">Interpreting Pie Charts <span class="code">(MF50.11)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_21">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_21" data-topic="Probability from a pie chart / probability scale" data-nugget="Probability Scale in Numbers (MF46.02)">
+    <span class="nugget-text">Probability Scale in Numbers <span class="code">(MF46.02)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">6</td>
+  <td class="topic">Rectangle area and perimeter</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_22">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_22" data-topic="Rectangle area and perimeter" data-nugget="Area of Squares, Rectangles and Parallelograms (MF31.03)">
+    <span class="nugget-text">Area of Squares, Rectangles and Parallelograms <span class="code">(MF31.03)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_23">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_23" data-topic="Rectangle area and perimeter" data-nugget="Perimeter and Algebra (MF30.06)">
+    <span class="nugget-text">Perimeter and Algebra <span class="code">(MF30.06)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">7</td>
+  <td class="topic">Prime numbers with a given sum</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_24">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_24" data-topic="Prime numbers with a given sum" data-nugget="Primes (MF5.03)">
+    <span class="nugget-text">Primes <span class="code">(MF5.03)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">8</td>
+  <td class="topic">Solving item costs from combinations</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_25">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_25" data-topic="Solving item costs from combinations" data-nugget="Simultaneous Equations: Substitution (MF19.25)">
+    <span class="nugget-text">Simultaneous Equations: Substitution <span class="code">(MF19.25)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_26">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_26" data-topic="Solving item costs from combinations" data-nugget="Simultaneous Equations: Worded Questions (MF19.26)">
+    <span class="nugget-text">Simultaneous Equations: Worded Questions <span class="code">(MF19.26)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">9(a)</td>
+  <td class="topic">Substituting into a formula</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_27">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_27" data-topic="Substituting into a formula" data-nugget="Substituting into a Formula (MF21.02)">
+    <span class="nugget-text">Substituting into a Formula <span class="code">(MF21.02)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">9(b)</td>
+  <td class="topic">Solving a formula-based equation</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_28">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_28" data-topic="Solving a formula-based equation" data-nugget="Substituting into a Formula (MF21.02)">
+    <span class="nugget-text">Substituting into a Formula <span class="code">(MF21.02)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_29">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_29" data-topic="Solving a formula-based equation" data-nugget="Solving Equations: Two Steps ax + b = c (MF19.06)">
+    <span class="nugget-text">Solving Equations: Two Steps ax + b = c <span class="code">(MF19.06)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">10(a)</td>
+  <td class="topic">Mode</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_30">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_30" data-topic="Mode" data-nugget="Mode (MF49.01)">
+    <span class="nugget-text">Mode <span class="code">(MF49.01)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">10(b)</td>
+  <td class="topic">Median</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_31">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_31" data-topic="Median" data-nugget="Median (MF49.02)">
+    <span class="nugget-text">Median <span class="code">(MF49.02)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">10(c)</td>
+  <td class="topic">Missing value from the mean</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_32">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_32" data-topic="Missing value from the mean" data-nugget="Mean 3: Finding Missing Values (MF49.05)">
+    <span class="nugget-text">Mean 3: Finding Missing Values <span class="code">(MF49.05)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_33">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_33" data-topic="Missing value from the mean" data-nugget="Mean 2: Decimals and Negatives (MF49.04)">
+    <span class="nugget-text">Mean 2: Decimals and Negatives <span class="code">(MF49.04)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">11(a)</td>
+  <td class="topic">Continuing a sequence</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_34">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_34" data-topic="Continuing a sequence" data-nugget="Continuing Sequences (MF22.01)">
+    <span class="nugget-text">Continuing Sequences <span class="code">(MF22.01)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">11(b)</td>
+  <td class="topic">Expand and simplify</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_35">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_35" data-topic="Expand and simplify" data-nugget="Expanding and Simplifying (MF18.06)">
+    <span class="nugget-text">Expanding and Simplifying <span class="code">(MF18.06)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">11(c)</td>
+  <td class="topic">Factorising into a single bracket</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_36">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_36" data-topic="Factorising into a single bracket" data-nugget="Factorising into a Single Bracket 2: ax ± bx (MF18.08)">
+    <span class="nugget-text">Factorising into a Single Bracket 2: ax ± bx <span class="code">(MF18.08)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">11(d)</td>
+  <td class="topic">Solving a linear equation</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_37">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_37" data-topic="Solving a linear equation" data-nugget="Solving Equations: Two Steps ax + b = c (MF19.06)">
+    <span class="nugget-text">Solving Equations: Two Steps ax + b = c <span class="code">(MF19.06)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">11(e)</td>
+  <td class="topic">Cube roots / inverse operations</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_38">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_38" data-topic="Cube roots / inverse operations" data-nugget="Roots of Squares and Cubes (MF12.05)">
+    <span class="nugget-text">Roots of Squares and Cubes <span class="code">(MF12.05)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_39">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_39" data-topic="Cube roots / inverse operations" data-nugget="Cubes (MF12.02)">
+    <span class="nugget-text">Cubes <span class="code">(MF12.02)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">12(a)</td>
+  <td class="topic">Percentage of an amount</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_40">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_40" data-topic="Percentage of an amount" data-nugget="Finding Percentages 2: &gt; 100% or Non-Integer Percentages (Calculator) (MF11.02)">
+    <span class="nugget-text">Finding Percentages 2: > 100% or Non-Integer Percentages (Calculator) <span class="code">(MF11.02)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">12(b)</td>
+  <td class="topic">Fractional increase of a quantity</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_41">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_41" data-topic="Fractional increase of a quantity" data-nugget="Fraction of Amounts: Calculator (MF4.30)">
+    <span class="nugget-text">Fraction of Amounts: Calculator <span class="code">(MF4.30)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">12(c)</td>
+  <td class="topic">Expressing one amount as a percentage of another</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_42">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_42" data-topic="Expressing one amount as a percentage of another" data-nugget="Express One Amount as a Percentage of Another (MF11.13)">
+    <span class="nugget-text">Express One Amount as a Percentage of Another <span class="code">(MF11.13)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">13(a)</td>
+  <td class="topic">Scaling a recipe up</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_43">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_43" data-topic="Scaling a recipe up" data-nugget="Recipe Ratio 1: Find Amount of Ingredients (MF16.02)">
+    <span class="nugget-text">Recipe Ratio 1: Find Amount of Ingredients <span class="code">(MF16.02)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">13(b)</td>
+  <td class="topic">Finding how many recipes can be made</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_44">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_44" data-topic="Finding how many recipes can be made" data-nugget="Recipe Ratio 2: Find the Number of People (MF16.03)">
+    <span class="nugget-text">Recipe Ratio 2: Find the Number of People <span class="code">(MF16.03)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">14</td>
+  <td class="topic">Simple interest and when an amount exceeds a target</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_45">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_45" data-topic="Simple interest and when an amount exceeds a target" data-nugget="Simple Interest (Calculator) (MF11.06)">
+    <span class="nugget-text">Simple Interest (Calculator) <span class="code">(MF11.06)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_46">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_46" data-topic="Simple interest and when an amount exceeds a target" data-nugget="Solving Inequalities: Two Step (MF25.08)">
+    <span class="nugget-text">Solving Inequalities: Two Step <span class="code">(MF25.08)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">15</td>
+  <td class="topic">Unit price with decimal calculations</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_47">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_47" data-topic="Unit price with decimal calculations" data-nugget="Multiplying Decimals: Worded Questions (MF6.08)">
+    <span class="nugget-text">Multiplying Decimals: Worded Questions <span class="code">(MF6.08)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_48">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_48" data-topic="Unit price with decimal calculations" data-nugget="Subtracting Decimals 2: Worded Problems (MF6.05)">
+    <span class="nugget-text">Subtracting Decimals 2: Worded Problems <span class="code">(MF6.05)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_49">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_49" data-topic="Unit price with decimal calculations" data-nugget="Dividing Decimals (MF6.09)">
+    <span class="nugget-text">Dividing Decimals <span class="code">(MF6.09)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">16</td>
+  <td class="topic">Angle proof in a parallelogram</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_50">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_50" data-topic="Angle proof in a parallelogram" data-nugget="Quadrilateral Facts (MF29.03)">
+    <span class="nugget-text">Quadrilateral Facts <span class="code">(MF29.03)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_51">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_51" data-topic="Angle proof in a parallelogram" data-nugget="Angles in Parallel Lines 2 (MF27.12)">
+    <span class="nugget-text">Angles in Parallel Lines 2 <span class="code">(MF27.12)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_52">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_52" data-topic="Angle proof in a parallelogram" data-nugget="Angles in a Triangle 1 (MF28.01)">
+    <span class="nugget-text">Angles in a Triangle 1 <span class="code">(MF28.01)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">17(a)</td>
+  <td class="topic">Speed-distance-time with unit conversion</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_53">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_53" data-topic="Speed-distance-time with unit conversion" data-nugget="Finding Time with Conversions (SDT) (MF38.06)">
+    <span class="nugget-text">Finding Time with Conversions (SDT) <span class="code">(MF38.06)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_54">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_54" data-topic="Speed-distance-time with unit conversion" data-nugget="Problems with Time (MF37.09)">
+    <span class="nugget-text">Problems with Time <span class="code">(MF37.09)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">17(b)</td>
+  <td class="topic">Cost, litres and gallons conversion</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_55">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_55" data-topic="Cost, litres and gallons conversion" data-nugget="Dividing Decimals by Decimals (MF6.10)">
+    <span class="nugget-text">Dividing Decimals by Decimals <span class="code">(MF6.10)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_56">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_56" data-topic="Cost, litres and gallons conversion" data-nugget="Metric and Imperial Mass and Volume (Calculator) (MF36.19)">
+    <span class="nugget-text">Metric and Imperial Mass and Volume (Calculator) <span class="code">(MF36.19)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">18(a)</td>
+  <td class="topic">Correlation in a scatter graph</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_57">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_57" data-topic="Correlation in a scatter graph" data-nugget="Interpreting Scatter Graphs 1: Introduction (MF50.14)">
+    <span class="nugget-text">Interpreting Scatter Graphs 1: Introduction <span class="code">(MF50.14)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">18(b)</td>
+  <td class="topic">Estimate from a line of best fit</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_58">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_58" data-topic="Estimate from a line of best fit" data-nugget="Interpreting Scatter Graphs 1: Introduction (MF50.14)">
+    <span class="nugget-text">Interpreting Scatter Graphs 1: Introduction <span class="code">(MF50.14)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">18(c)</td>
+  <td class="topic">Interpreting a line of best fit as an estimate</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_59">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_59" data-topic="Interpreting a line of best fit as an estimate" data-nugget="Interpreting Scatter Graphs 1: Introduction (MF50.14)">
+    <span class="nugget-text">Interpreting Scatter Graphs 1: Introduction <span class="code">(MF50.14)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">18(d)</td>
+  <td class="topic">Mean from grouped frequency data</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_60">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_60" data-topic="Mean from grouped frequency data" data-nugget="Mean from Grouped Frequency Table 2: Continuous Data (MF49.17)">
+    <span class="nugget-text">Mean from Grouped Frequency Table 2: Continuous Data <span class="code">(MF49.17)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">19</td>
+  <td class="topic">Multi-step ratio / working backwards</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_61">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_61" data-topic="Multi-step ratio / working backwards" data-nugget="Sharing with a Given Ratio 3 (Calculator): Working Backwards (MF15.09)">
+    <span class="nugget-text">Sharing with a Given Ratio 3 (Calculator): Working Backwards <span class="code">(MF15.09)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_62">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_62" data-topic="Multi-step ratio / working backwards" data-nugget="3 Part Ratios (MF15.05)">
+    <span class="nugget-text">3 Part Ratios <span class="code">(MF15.05)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">20</td>
+  <td class="topic">Pythagoras with a circle</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_63">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_63" data-topic="Pythagoras with a circle" data-nugget="Pythagoras: Finding the Hypotenuse (MF44.02)">
+    <span class="nugget-text">Pythagoras: Finding the Hypotenuse <span class="code">(MF44.02)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_64">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_64" data-topic="Pythagoras with a circle" data-nugget="Area of a Circle: From Diameter (MF32.08)">
+    <span class="nugget-text">Area of a Circle: From Diameter <span class="code">(MF32.08)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">21(a)</td>
+  <td class="topic">Matching straight-line graphs to equations</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_65">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_65" data-topic="Matching straight-line graphs to equations" data-nugget="Graphing y = mx + c (1) (MF23.11)">
+    <span class="nugget-text">Graphing y = mx + c (1) <span class="code">(MF23.11)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_66">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_66" data-topic="Matching straight-line graphs to equations" data-nugget="Graphing y = mx + c (2) (MF23.12)">
+    <span class="nugget-text">Graphing y = mx + c (2) <span class="code">(MF23.12)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">21(b)</td>
+  <td class="topic">Parallel lines and gradient</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_67">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_67" data-topic="Parallel lines and gradient" data-nugget="Parallel and Perpendicular Lines (MF26.05)">
+    <span class="nugget-text">Parallel and Perpendicular Lines <span class="code">(MF26.05)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">21(c)</td>
+  <td class="topic">Rearranging a formula</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_68">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_68" data-topic="Rearranging a formula" data-nugget="Rearranging Formulae: Two Step (MF21.06)">
+    <span class="nugget-text">Rearranging Formulae: Two Step <span class="code">(MF21.06)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">22(a)</td>
+  <td class="topic">Completing a tree diagram</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_69">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_69" data-topic="Completing a tree diagram" data-nugget="Tree Diagrams 1: Completing Diagrams (MF46.14)">
+    <span class="nugget-text">Tree Diagrams 1: Completing Diagrams <span class="code">(MF46.14)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">22(b)</td>
+  <td class="topic">Probability using a tree diagram</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_70">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_70" data-topic="Probability using a tree diagram" data-nugget="Tree Diagrams 3: Calculating Probability of Multiple Outcomes (MF46.16)">
+    <span class="nugget-text">Tree Diagrams 3: Calculating Probability of Multiple Outcomes <span class="code">(MF46.16)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_71">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_71" data-topic="Probability using a tree diagram" data-nugget="Tree Diagrams 4: AND/OR Statements (2 Branch Trees) (MF46.17)">
+    <span class="nugget-text">Tree Diagrams 4: AND/OR Statements (2 Branch Trees) <span class="code">(MF46.17)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">23(a)</td>
+  <td class="topic">Trigonometry - missing side</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_72">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_72" data-topic="Trigonometry - missing side" data-nugget="Introduction to SOHCAHTOA (MF45.01)">
+    <span class="nugget-text">Introduction to SOHCAHTOA <span class="code">(MF45.01)</span></span>
+  </label>
+</li><li>
+  <label class="nugget-option" for="nugget_73">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_73" data-topic="Trigonometry - missing side" data-nugget="Trigonometry: Missing Side 1 (Variable is Numerator) (MF45.03)">
+    <span class="nugget-text">Trigonometry: Missing Side 1 (Variable is Numerator) <span class="code">(MF45.03)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td class="question">23(b)</td>
+  <td class="topic">Trigonometry - missing angle</td>
+  <td class="nuggets">
+    <ul class="nugget-list">
+      <li>
+  <label class="nugget-option" for="nugget_74">
+    <input class="nugget-checkbox" type="checkbox" id="nugget_74" data-topic="Trigonometry - missing angle" data-nugget="Trigonometry: Missing Angle (MF45.05)">
+    <span class="nugget-text">Trigonometry: Missing Angle <span class="code">(MF45.05)</span></span>
+  </label>
+</li>
+    </ul>
+  </td>
+</tr>
           </tbody>
         </table>
       </div>
+
+      <div class="action-panel">
+        <p class="selected-count" id="selectedCount">0 nuggets selected</p>
+        <div class="button-row">
+          <button class="primary-btn" id="generateBtn" type="button">Generate targets</button>
+        </div>
+      </div>
+
+      <div class="output-card" id="targetsSection">
+        <h2>Your generated targets</h2>
+        <p class="output-help">Copy the text below to the clipboard, then log into Teams and send it to your maths tutor. After that, complete each target ASAP as homework to help improve your grade.</p>
+        <textarea id="targetOutput" readonly placeholder="Your generated targets will appear here after you click &quot;Generate targets&quot;."></textarea>
+        <div class="button-row" style="margin-top: 14px;">
+          <button class="secondary-btn" id="copyBtn" type="button">Copy to clipboard</button>
+          <span class="status" id="copyStatus" aria-live="polite"></span>
+        </div>
+      </div>
+
       <div class="footer">Mapped to the closest matching CENTURY nuggets from the uploaded nugget list.</div>
     </div>
   </div>
+
+  <script>
+    (function () {
+      const checkboxes = Array.from(document.querySelectorAll('.nugget-checkbox'));
+      const output = document.getElementById('targetOutput');
+      const copyStatus = document.getElementById('copyStatus');
+      const selectedCount = document.getElementById('selectedCount');
+      const targetsSection = document.getElementById('targetsSection');
+
+      function updateSelectedCount() {
+        const count = document.querySelectorAll('.nugget-checkbox:checked').length;
+        selectedCount.textContent = count + ' nugget' + (count === 1 ? '' : 's') + ' selected';
+      }
+
+      function updateRowHighlight() {
+        document.querySelectorAll('tbody tr').forEach((row) => {
+          const hasSelection = row.querySelector('.nugget-checkbox:checked') !== null;
+          row.classList.toggle('has-selection', hasSelection);
+        });
+      }
+
+      function buildTargetsText() {
+        const checked = Array.from(document.querySelectorAll('.nugget-checkbox:checked'));
+        if (!checked.length) {
+          return '';
+        }
+
+        const grouped = [];
+        const topicMap = new Map();
+
+        checked.forEach((checkbox) => {
+          const topic = checkbox.dataset.topic;
+          const nugget = checkbox.dataset.nugget;
+
+          if (!topicMap.has(topic)) {
+            const nuggetList = [];
+            topicMap.set(topic, nuggetList);
+            grouped.push({ topic, nuggets: nuggetList });
+          }
+
+          const nuggetList = topicMap.get(topic);
+          if (!nuggetList.includes(nugget)) {
+            nuggetList.push(nugget);
+          }
+        });
+
+        const lines = [];
+        lines.push('Based on my performance in the March mock exam, my targets are to improve in the following topics and complete the corresponding CENTURY nuggets:');
+        lines.push('');
+
+        grouped.forEach((group, index) => {
+          lines.push('Topic: ' + group.topic);
+          lines.push('CENTURY nugget(s):');
+          group.nuggets.forEach((nugget) => {
+            lines.push('- ' + nugget);
+          });
+          if (index !== grouped.length - 1) {
+            lines.push('');
+          }
+        });
+
+        lines.push('');
+        lines.push('I will complete these targets as soon as possible as homework to help improve my grade.');
+        return lines.join('\n');
+      }
+
+      function generateTargets() {
+        const text = buildTargetsText();
+        copyStatus.textContent = '';
+        copyStatus.className = 'status';
+
+        if (!text) {
+          output.value = 'Please tick the CENTURY nuggets that you need to work on, then click "Generate targets".';
+          copyStatus.textContent = 'No nuggets selected yet.';
+          copyStatus.className = 'status warning';
+          output.focus();
+          output.select();
+          return;
+        }
+
+        output.value = text;
+        output.focus();
+        output.setSelectionRange(0, 0);
+
+        if (targetsSection && typeof targetsSection.scrollIntoView === 'function') {
+          targetsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      async function copyTargets() {
+        const text = output.value.trim();
+
+        if (!text || text === 'Please tick the CENTURY nuggets that you need to work on, then click "Generate targets".') {
+          copyStatus.textContent = 'Generate your targets first.';
+          copyStatus.className = 'status warning';
+          return;
+        }
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            output.focus();
+            output.select();
+            output.setSelectionRange(0, output.value.length);
+
+            const copied = document.execCommand('copy');
+            if (!copied) {
+              throw new Error('Fallback copy failed');
+            }
+          }
+
+          copyStatus.textContent = 'Copied to clipboard. Now send it to your maths tutor on Teams.';
+          copyStatus.className = 'status success';
+        } catch (error) {
+          output.focus();
+          output.select();
+          output.setSelectionRange(0, output.value.length);
+          copyStatus.textContent = 'Press Ctrl+C (or Cmd+C) to copy the text, then send it to your maths tutor on Teams.';
+          copyStatus.className = 'status warning';
+        }
+      }
+
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', () => {
+          updateSelectedCount();
+          updateRowHighlight();
+        });
+      });
+
+      document.getElementById('generateBtn').addEventListener('click', generateTargets);
+      document.getElementById('copyBtn').addEventListener('click', copyTargets);
+
+      updateSelectedCount();
+      updateRowHighlight();
+    })();
+  </script>
 </body>
 </html>
